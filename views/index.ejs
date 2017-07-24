@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include partials/header.ejs %>
+	</head>
+
+	<body>
+		<% if (classname !== 'login') { %>
+			<% include partials/top.ejs %>
+		<% } %>
+
+		<div class="container">
+			<% if (classname == 'login') { %>
+			<%   include partials/login.ejs %>
+			<% } else if (classname == 'adminHome') { %>
+			<%   include partials/adminHome.ejs %>
+			<%   if (subpage == 'manageTeachers') { %>
+			<%     include partials/admin/manageTeachers.ejs %>
+			<%   } else if (subpage == 'approveRegistration') { %>
+			<%     include partials/admin/approveRegistration.ejs %>
+			<%   } %>
+			<% } else if (classname == 'teacherHome') { %>
+			<%   include partials/teacherHome.ejs %>
+			<%   if (subpage == 'manageLessons') { %>
+			<%     include partials/teacher/manageLessons.ejs %>
+			<%   } else if (subpage == 'manageStudents') { %>
+			<%     include partials/teacher/manageStudents.ejs %>
+			<%   } else if (subpage == 'editLessons') { %>
+			<%     include partials/teacher/editLesson.ejs %>
+			<%   } else if (subpage == 'editTestItems') { %>
+			<%     include partials/teacher/editTestItems.ejs %>
+			<%   } %>
+			<% } %>
+		</div>
+	</body>
+</html>

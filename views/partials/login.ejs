@@ -1,0 +1,39 @@
+<% if (error !== "") { %>
+	<script>
+		Materialize.toast("<%= error %>", 4000);
+	</script>
+<% } %>
+
+<div class="row valign-wrapper">
+	<div class="col s6 offset-s3">
+		<div class="card">
+			<div class="card-content center-align light-blue lighten-2">
+				<img src="/images/SuperMATH.png" />
+				<br>
+				<span class="card-title"> Log In </span>
+			</div>
+			
+			<div class="card-action">
+				<form method="POST" action="/">
+					<div class="row">
+						<div class="input-field col s12">
+							<input id="username" type="text" name="username" class="validate">
+							<label for="username">Username</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input id="password" type="password" name="password" class="validate">
+							<label for="password">Password</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s4 offset-s4">
+							<button class="btn waves-effect waves-light light-blue lighten-2" type="submit" name="submit">Submit </button>
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

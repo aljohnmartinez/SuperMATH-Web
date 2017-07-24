@@ -1,0 +1,60 @@
+<script>
+  $(document).ready(function(){
+    $('.modal-trigger').leanModal();
+  });
+</script>
+
+<% if (message !== "") { %>
+  <script>
+    Materialize.toast("<%= message %>", 4000);
+  </script>
+<% } %>
+
+<div>
+  <table class="highlight ">
+    <thead>
+      <tr>
+        <th data-field="name" rowspan="2">Name</th>
+        <% for (var j = 1; j <= count; j++) { %>
+        <th colspan="2"> Unit <%= j%> </th>
+        <% } %> 
+        <th rowspan="2"> Action </th>
+      </tr>
+      <tr>
+        <% for (var j = 1; j <= count; j++) { %>
+        <th> Pre-Test </th>
+        <th> Post-Test </th>
+        <% } %> 
+      </tr>
+    </thead>
+    <% if (student) { %>
+      <tbody>
+        <% for (var i = 0; i < student.length; i++) { %>
+          <tr>
+            <td><b><%= student[i].name %><b></td>
+            <% for (var j = 1; j <= count; j++) { %>
+            <td> <%= student[i]['score' + j + '_pre'] %> </td>
+            <td> <%= student[i]['score' + j + '_post'] %> </td>
+            <% } %> 
+            <td>
+              <button data-target="<%= student[i].username %>DeleteModal" class="btn modal-trigger red"> Delete </button>
+              <!-- Modal for Delete -->
+              <div id="<%= student[i].username %>DeleteModal" class="modal">
+                <div class="modal-content left-align">
+                  <h4> Delete Student </h4>
+                  <p> Are you sure you want to delete <%= student[i].name %> in the students list? </p>
+                  <p class="gray"> <em> This action is undoable. </em> </p>
+                  <form method="POST" action="/deleteStudent">
+                    <input type="hidden" name="id" value="<%= student[i].id %>">
+                    <input type="hidden" name="name" value="<%= student[i].name %>">
+                    <button class="btn waves-effect waves-light" type="submit" name="submit"> Submit </button>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    <% } %>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+a {
+	color: #00B7FF;
+}
+
+.viewModal {
+	width: 30% !important;
+}
+
+.superMATHLogo {
+	height: 60px;
+}
+
+#number {
+	position: relative;
+	bottom: 1vh;
+}

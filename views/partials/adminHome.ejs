@@ -1,0 +1,38 @@
+<div class="row">
+	<h5 class="center-align">
+		<% if (subpage) { %>
+			<div class="row">
+				<div class="col s6">
+					<% if (subpage == 'manageTeachers') { %>
+						Manage Teachers
+					<% } else { %>
+						<a href="manageTeachers"> Manage Teachers </a>
+					<% } %>
+				</div>
+
+				<div class="col s6">
+					<% if (subpage == 'approveRegistration') { %>
+						Approve Registration
+					<% } else { %>
+						<a href="approveRegistration"> Approve Registration </a>
+					<% } %>
+				</div>
+			</div>
+		<% } else { %>
+			<div class="col s6">
+				<a href="manageTeachers"><div class="card hoverable">
+					<div class="card-content">
+						<span class="card-title"> Manage Teachers</span>
+					</div>
+				</div> </a>
+			</div>
+			<div class="col s6">
+				<a href="approveRegistration"><div class="card hoverable">
+					<div class="card-content">
+						<span class="card-title"> Approve Registration </span>
+					</div>
+				</div> </a>
+			</div>
+		<% } %>
+	</h5>
+</div>

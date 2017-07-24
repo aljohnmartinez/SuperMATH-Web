@@ -1,0 +1,30 @@
+<div class="row">
+</div>
+
+<div>
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th data-field="name">Username</th>
+        <th data-field="name">Name</th>
+        <th data-field="action">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    	<% for (var i = 0; i < applicants.length; i++) { %>
+	      <tr>
+	        <td><%= applicants[i].username %></td>
+          <td><%= applicants[i].name %></td>
+	        <td>
+              <form method="POST" action="/updateStudentRegistration">
+                <input type="hidden" name="id" value="<%= applicants[i].id %>">
+                <button class="btn waves-effect waves-light cyan" type="submit" value="approve" name="submit"> Approve </button>
+                <button class="btn waves-effect waves-light red" type="submit" value="disapprove" name="submit"> Disapprove </button>
+              </form>
+          </td>
+	      </tr>
+    	<% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,179 @@
+<script>
+	$(document).ready(function(){
+		$('.modal-trigger').leanModal();
+	});
+</script>
+
+<div class="row valign-wrapper">
+	<div class="col s10">
+		<h5> <span class="grey-text"> Lessons for Unit <%= unit %>: </span> <%= title %> </h5>
+	</div>
+	<div class="col s2 valign right-align">
+		<a class="waves-effect waves-light btn black" href="/manageLessons">Back</a>
+	</div>
+</div>
+
+<div class="row">
+	<table class="highlight">
+		<thead>
+			<tr>
+				<th data-field="lessonNo">Lesson Number</th>
+				<th data-field="title">Title</th>
+				<th data-field="action">Action</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		<% for (var i = 0; i < pages.length; i++) { %>
+			<tr>
+				<td><%= pages[i].subtopicId %></td>
+				<td><%= pages[i].subtopicName %></td>
+				<td>
+					<button data-target="<%= pages[i].id %>viewPage" class="btn modal-trigger green"> View </button>
+					<button data-target="<%= pages[i].id %>editModal" class="btn modal-trigger cyan"> Edit </button>
+					<button data-target="<%= pages[i].id %>deleteModal" class="btn modal-trigger red"> Delete </button>
+				</td>
+			</tr>
+
+			<!-- Modal for View -->
+			<div id="<%= pages[i].id %>viewPage" class="modal viewModal">
+				<h6>
+					<div class="modal-content">
+						<h5 class="center-align blue-text"> <%= pages[i].subtopicName %> </h5>
+						<br /><br />
+						<%= pages[i].text1 %>
+						<br /><br />
+						<img src="/images/<%=pages[i].img1filename%>" onerror="this.style.display='none'" style="width: 100%"/>
+						<br /><br />
+						<%= pages[i].text2 %>
+						<br /><br />
+						<img src="/images/<%=pages[i].img2filename%>" onerror="this.style.display='none'" style="width:100%;"/>
+					</div>
+				</h6>
+			</div>
+
+			<!-- Modal for Edit -->
+			<div id="<%= pages[i].id %>editModal" class="modal">
+				<h6>
+					<div class="modal-content">
+						<h4 class="center-align"> Edit <span class="blue-text"> <%= pages[i].subtopicName %> </span> </h5>
+						<form method="POST" action="/editPage" enctype="multipart/form-data">
+							<input type="hidden" name="id" value="<%= pages[i].id %>">
+							<div class="input-field">
+								<input id="title" type="text" name="title" value="<%= pages[i].subtopicName %>" required>
+								<label for="title"> Title </label>
+							</div>
+							<div class="input-field">
+								<textarea id="textarea1" class="materialize-textarea" name="text1"><%= pages[i].text1 %></textarea>
+							</div>
+							<div class="row valign-wrapper">
+								<div class="col s8">
+									<img src="/images/<%=pages[i].img1filename%>" onerror="this.style.display='none'" style="width:100%"/>
+								</div>
+								<div class="col s4 valign">
+									<span class="grey-text">REPLACE IMAGE</span>
+									<div class="file-field input-field">
+										<div class="btn blue">
+											<span>Select</span>
+											<input type="file" accept="image/*" name="<%=pages[i].img1filename%>" id="<%=pages[i].img1filename%>">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text" placeholder="Upload image">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="input-field">
+								<textarea id="textarea2" class="materialize-textarea" name="text2"><%= pages[i].text2 %></textarea>
+							</div>
+							<div class="row valign-wrapper">
+								<div class="col s8">
+									<img src="/images/<%=pages[i].img2filename%>" onerror="this.style.display='none'" style="width:100%"/>
+								</div>
+								<div class="col s4 valign">
+									<span class="grey-text">REPLACE IMAGE</span>
+									<div class="file-field input-field">
+										<div class="btn blue">
+											<span>Select</span>
+											<input type="file" accept="image/*" name="<%=pages[i].img2filename%>" id="<%=pages[i].img2filename%>">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text" placeholder="Upload image">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="input-field center-align">
+								<button class="btn waves-effect waves-light" type="submit" name="submit"> Edit Page </button>
+							</div>
+						</form>
+					</div>
+				</h6>
+			</div>
+
+			<!-- Modal for Delete -->
+			<div id="<%= pages[i].id %>deleteModal" class="modal">
+				<div class="modal-content">
+					<h4> Delete Page </h4>
+					<p> Are you sure you want to delete this page? </p>
+					<p class="gray"> <em> This action is undoable. </em> </p>
+					<form method="POST" action="/deletePage">
+						<input type="hidden" name="id" value="<%= pages[i].id %>">
+						<input type="hidden" name="unit" value="<%= unit %>">
+						<input type="hidden" name="title" value="<%= pages[i].subtopicName %>">
+						<button class="btn waves-effect waves-light red" type="submit" name="submit"> Delete </button>
+					</form>
+				</div>
+			</div>
+		<% } %>
+		<tr>
+			<td colspan=7>
+				<button data-target="addPageModal" class="btn modal-trigger">Add</button>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal for Add -->
+<div id="addPageModal" class="modal">
+	<div class="modal-content">
+		<h4> Add New Lesson </h4>
+		<form method="POST" action="/addPage" enctype="multipart/form-data">
+			<input type="hidden" name="unit" value="<%= unit %>">
+			<div class="input-field">
+				<input id="title" type="text" name="title" class="validate">
+				<label for="title">Title</label>
+			</div>
+			<div class="input-field">
+				<input id="text1" type="text" name="text1" class="validate">
+				<label for="text1">Text</label>
+			</div>
+			<div class="file-field input-field">
+				<div class="btn blue">
+					<span>Select</span>
+					<input type="file" accept="image/*" name="img1" id="img1">
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload image">
+				</div>
+			</div>
+			<div class="input-field">
+				<input id="text2" type="text" name="text2" class="validate">
+				<label for="text2">Text</label>
+			</div>
+			<div class="file-field input-field">
+				<div class="btn blue">
+					<span>Select</span>
+					<input type="file" accept="image/*" name="img2" id="img2">
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload image">
+				</div>
+			</div>
+			<div class="input-field center-align">
+				<button class="btn waves-effect waves-light" type="submit" name="submit"> Submit </button>
+			</div>
+		</form>
+	</div>
+</div>

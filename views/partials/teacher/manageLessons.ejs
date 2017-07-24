@@ -1,0 +1,71 @@
+<script>
+	$(document).ready(function(){
+		$('.modal-trigger').leanModal();
+	});
+</script>
+
+<% if (message !== "") { %>
+	<script>
+		Materialize.toast("<%= message %>", 4000);
+	</script>
+<% } %>
+
+<div>
+	<% for (var i = 0; i <= topics.length; i++) { %>
+		<% if (i % 3 === 0) { %>
+		<div class="row">
+		<% } %>
+			<div class="col s4">
+				<div class="card hoverable teal lighten-4" id="topicDiv">
+					<div class="card-content">
+						<div class="chip blue white-text" id="number">
+							Unit <%= i+1 %>
+						</div>
+						<% if (i === topics.length) { %>
+						<div class="row center-align">
+							<button data-target="addTopicModal" class="btn modal-trigger">Add New Unit</button>
+						</div>
+
+						<% } else { %>
+						<h5><%= topics[i].topicName %></h5>
+						<div class="row center-align">
+							<div class="col s8 m7 l6">
+								<form method="POST" action="/editLessons">
+									<input type="hidden" name="unit" value="<%= topics[i].topicId %>">
+									<input type="hidden" name="title" value="<%= topics[i].topicName %>">
+									<button class="btn waves-effect waves-light" type="submit" name="submit"> Lessons </button>
+								</form>
+							</div>
+							<div>
+								<form method="POST" action="/editTestItems">
+									<input type="hidden" name="unit" value="<%= topics[i].topicId %>">
+									<input type="hidden" name="title" value="<%= topics[i].topicName %>">
+									<button class="btn waves-effect waves-light" type="submit" name="submit"> Test </button>
+								</form>
+							</div>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		<% if (i % 3 === 2) { %>
+		</div>
+		<% } %>
+	<% } %>
+</div>
+
+<div id="addTopicModal" class="modal">
+	<div class="modal-content">
+		<h4> Add New Unit </h4>
+		<form method="POST" action="/addTopic">
+			<input type="hidden" name="number" value="<%= topics.length %>">
+			<div class="input-field">
+				<input id="title" type="text" name="title" class="validate">
+				<label for="title">Title</label>
+			</div>
+			<div class="input-field center-align">
+				<button class="btn waves-effect waves-light" type="submit" name="submit"> Submit </button>
+			</div>
+		</form>
+	</div>
+</div>

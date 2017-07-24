@@ -1,0 +1,112 @@
+<div class="row">
+<script>
+	$(document).ready(function(){
+		$('.modal-trigger').leanModal();
+	});
+</script>
+</div>
+
+<% if (message !== "") { %>
+	<script>
+		Materialize.toast("<%= message %>", 4000);
+	</script>
+<% } %>
+
+<div>
+	<table class="highlight">
+		<thead>
+			<tr>
+				<th data-field="name">Name</th>
+				<th data-field="username">Username</th>
+				<th data-field="action">Action</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% for (var i = 0; i < teachers.length; i++) { %>
+				<tr>
+					<td><%= teachers[i].name %></td>
+					<td><%= teachers[i].username %></td>
+					<td>
+						<button data-target="<%= teachers[i].username %>EditModal" class="btn modal-trigger cyan"> Edit </button>
+						<!-- Modal for Edit -->
+						<div id="<%= teachers[i].username %>EditModal" class="modal">
+							<div class="modal-content">
+								<h4> Edit Details for <%= teachers[i].name %> </h4>
+								<form method="POST" action="/editTeacher">
+									<input type="hidden" name="id" value="<%= teachers[i].id %>">
+									<div class="input-field col s8">
+										<input id="name" type="text" name="name" class="validate" value="<%= teachers[i].name %>">
+										<label for="name">Name</label>
+									</div>
+									<div class="input-field col s8">
+										<input id="username" type="text" name="username" class="validate" value="<%= teachers[i].username %>">
+										<label for="username">Username</label>
+									</div>
+									<div class="input-field col s8">
+										<input id="password" type="password" name="password" class="validate" value="<%= teachers[i].password %>">
+										<label for="password">Password</label>
+									</div>
+									<div class="input-field col s8">
+										<input id="rePassword" type="password" name="rePassword" class="validate">
+										<label for="rePassword">Retype Password</label>
+									</div>
+									<div class="input-field">
+										<button class="btn waves-effect waves-light" type="submit" name="submit"> Submit </button>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<button data-target="<%= teachers[i].username %>DeleteModal" class="btn modal-trigger red"> Delete </button>
+						<!-- Modal for Delete -->
+						<div id="<%= teachers[i].username %>DeleteModal" class="modal">
+							<div class="modal-content">
+								<h4> Delete Teacher </h4>
+								<p> Are you sure you want to delete <%= teachers[i].name %> in the teachers list? </p>
+								<p class="gray"> <em> This action is undoable. </em> </p>
+								<form method="POST" action="/deleteTeacher">
+									<input type="hidden" name="id" value="<%= teachers[i].id %>">
+									<input type="hidden" name="name" value="<%= teachers[i].name %>">
+									<button class="btn waves-effect waves-light" type="submit" name="submit"> Submit </button>
+								</form>
+							</div>
+						</div>
+
+					</td>
+				</tr>
+			<% } %>
+				<tr>
+					<td colspan=3> <button data-target="addModal" class="btn modal-trigger">Add Teacher</button> </td>
+				</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal for Add -->
+<div id="addModal" class="modal">
+	<div class="modal-content">
+		<h4> Add Teacher </h4>
+		<form method="POST" action="/addTeacher">
+			<div class="input-field">
+				<input id="name" type="text" name="name" class="validate">
+				<label for="name">Name</label>
+			</div>
+			<div class="input-field">
+				<input id="username" type="text" name="username" class="validate">
+				<label for="username">Username</label>
+			</div>
+			<div class="input-field">
+				<input id="password" type="password" name="password" class="validate">
+				<label for="password">Password</label>
+			</div>
+			<div class="input-field">
+				<input id="rePassword" type="password" name="rePassword" class="validate">
+				<label for="rePassword">Retype Password</label>
+			</div>
+			<div class="input-field center-align">
+				<button class="btn waves-effect waves-light" type="submit" name="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+</div>
